@@ -7,8 +7,7 @@ import model.Node
 object Application extends Controller {
 
   def listNodes = Action {
-    val myNode = new Node
-    myNode.name = "server1"
+    val myNode = new Node("server1")
     Ok(myNode.name)
   }
 
