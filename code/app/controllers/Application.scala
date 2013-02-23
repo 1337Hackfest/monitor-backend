@@ -9,7 +9,6 @@ object Application extends Controller {
   def nodes = Action {
     val myNode = new Node
     myNode.name = "server1"
-
     Ok(myNode.name)
   }
   

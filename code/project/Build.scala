@@ -10,12 +10,14 @@ object ApplicationBuild extends Build {
   val appDependencies = Seq(
     // Add your project dependencies here,
     jdbc,
-    anorm
+    anorm,
+    "com.novus" % "salat" % "1.9.2-SNAPSHOT",
+    "com.github.tmingos" % "casbah_2.10" % "2.5.0-SNAPSHOT"
   )
 
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   )
 
 }
