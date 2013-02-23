@@ -6,10 +6,19 @@ import model.Node
 
 object Application extends Controller {
 
-  def nodes = Action {
+  def listNodes = Action {
     val myNode = new Node
     myNode.name = "server1"
     Ok(myNode.name)
   }
-  
+
+  def addNode (id : Long) = Action {
+    Ok("got node " + id)
+  }
+
+  def deleteNode(id : Long) = TODO
+
+  def updateNode(id : Long) = TODO
+
+
 }
