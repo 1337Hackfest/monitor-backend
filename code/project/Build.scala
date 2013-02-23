@@ -11,7 +11,7 @@ object ApplicationBuild extends Build {
     // Add your project dependencies here,
     jdbc,
     anorm,
-    "com.novus" % "salat" % "1.9.2-SNAPSHOT",
+    "com.novus" % "salat_2.10" % "1.9.2-SNAPSHOT",
     "com.github.tmingos" % "casbah_2.10" % "2.5.0-SNAPSHOT"
   )
 
