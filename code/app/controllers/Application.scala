@@ -2,20 +2,38 @@ package controllers
 
 import play.api._
 import play.api.mvc._
-import model.Node
+import play.api.data._
+import play.api.data.Forms._
+import model._
 
 object Application extends Controller {
+  
+  val nodeForm = Form (
+    "name" -> nonEmptyText
+  )
+
+  def index = Action {
+    Redirect(routes.Application.listNodes)
+  }
 
   def listNodes = Action {
-    val myNode = new Node("server1")
-    Ok(myNode.name)
+    Ok(views.html.index(Node.all(), nodeForm))
   }
 
-  def addNode (id : Long) = Action {
-    Ok("got node " + id)
+  def addNode = Action { implicit request =>
+    nodeForm.bindFromRequest.fold(
+      errors => BadRequest(views.html.index(Node.all(), errors)),
+      name => {
+        Node.create(name)
+        Redirect(routes.Application.listNodes)
+      }
+    )
   }
 
-  def deleteNode(id : Long) = TODO
+  def deleteNode(id: String) = Action {
+    Node.delete(id)
+    Redirect(routes.Application.listNodes)
+  }
 
   def updateNode(id : Long) = TODO
 

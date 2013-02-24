@@ -1,7 +1,30 @@
-@(message: String)
+@(nodes: List[model.Node], nodeForm: Form[String])
 
-@main("Welcome to HACKFEST") {
+@import helper._
+
+@main("Node list") {
     
-    @play20.welcome(message)
+    <h1>@nodes.size node(s)</h1>
+    
+    <ul>
+        @nodes.map { node =>
+            <li>
+                @node.name
+                
+                @form(routes.Application.deleteNode(node._id.toString)) {
+                    <input type="submit" value="Delete">
+                }
+            </li>
+        }
+    </ul>
+    
+    <h2>Add a new node</h2>
+    
+    @form(routes.Application.addNode) {
+        
+        @inputText(nodeForm("name"))
+        <input type="submit" value="Create">
+        
+    }
     
 }
