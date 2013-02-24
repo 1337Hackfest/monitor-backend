@@ -16,19 +16,17 @@ object Application extends Controller {
     Ok(Json.toJson(Node.all()))
   }
 
-
   def getNode(id: ObjectId) = Action {
     Ok(Json.toJson(Node.findOne(id)))
   }
 
-  def newNode = Action {
-    request =>
-      request.body.asJson.map {
-        json =>
-          (json \ "name").asOpt[String].map {
-            name =>
-              Node.create(name, " ")
-              Ok("Created node with name " + name)
+  def newNode = Action { request =>
+      request.body.asJson.map { json =>
+          val address = (json \ "ipaddress").asOpt[String].getOrElse("")
+
+          (json \ "name").asOpt[String].map { name =>
+              Node.create(name, address)
+              Ok("Created node with name " + name + " and address " + address)
           }.getOrElse {
             BadRequest("Missing parameter name")
           }
