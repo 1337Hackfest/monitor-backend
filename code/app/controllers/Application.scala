@@ -26,9 +26,9 @@ object Application extends Controller {
       request.body.asJson.map {
         json =>
           (json \ "name").asOpt[String].map {
-            label =>
-              Node.create(label, " ")
-              Ok("Created node with name " + label)
+            name =>
+              Node.create(name, " ")
+              Ok("Created node with name " + name)
           }.getOrElse {
             BadRequest("Missing parameter name")
           }
