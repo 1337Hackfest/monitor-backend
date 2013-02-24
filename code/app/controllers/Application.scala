@@ -1,7 +1,7 @@
 package controllers
 
 import play.api._
-import libs.json.Json
+import libs.json.{JsResult, Json}
 import play.api.mvc._
 import model.Node
 import org.bson.types.ObjectId
@@ -21,15 +21,14 @@ object Application extends Controller {
   }
 
   def newNode = Action { request =>
-      request.body.asJson.map { json =>
-          val address = (json \ "ipaddress").asOpt[String].getOrElse("")
+    request.body.asJson.map { json =>
+      val jsResult: JsResult[Node] = Json.fromJson[Node](json)
 
-          (json \ "name").asOpt[String].map { name =>
-              Node.create(name, address)
-              Ok("Created node with name " + name + " and address " + address)
-          }.getOrElse {
-            BadRequest("Missing parameter name")
-          }
+      jsResult.asOpt.map { node =>
+        Ok(Node.create(node.name, node.ipAddress).toString)
+      }.getOrElse {
+        BadRequest("Invalid node: " + jsResult)
+      }
     }.getOrElse {
       BadRequest("Expecting JSON data")
     }

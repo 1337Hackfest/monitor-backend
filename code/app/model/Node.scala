@@ -26,10 +26,7 @@ object Node extends ModelCompanion[Node, ObjectId] {
 
   def findOne(id: ObjectId) = dao.findOneById(id)
 
-  def create(name: String, ipAddress: String) {
-    val node = new Node(new ObjectId(), name, ipAddress)
-    dao.insert(node)
-  }
+  def create(label: String, ipAddress: String) = dao.insert(new Node(new ObjectId(), label, ipAddress)).get
 
   def delete(id: ObjectId) = dao.removeById(id)
 
@@ -42,9 +39,9 @@ object Node extends ModelCompanion[Node, ObjectId] {
   }
 
   implicit val nodeFormat = (
-    (__ \ "_id").format[ObjectId] and
-      (__ \ "name").format[String] and
-        (__ \ "ipaddress").format[String]
-    )(Node.apply, unlift(Node.unapply))
+    (__ \ "_id").formatNullable[ObjectId] and
+    (__ \ "name").format[String] and
+    (__ \ "ipaddress").format[String]
+  )((id, name, ipaddress) => Node.apply(new ObjectId(), name, ipaddress), (n: Node) => (Option(n._id), n.name, n.ipAddress))
 
 }
