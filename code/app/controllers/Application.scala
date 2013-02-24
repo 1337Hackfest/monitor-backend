@@ -39,7 +39,19 @@ object Application extends Controller {
     Ok("Deleted node, " + id)
   }
 
-  def updateNode(id: Long) = TODO
+  def updateNode(id: ObjectId) = Action { request =>
+    request.body.asJson.map { json =>
+      val jsResult: JsResult[Node] = Json.fromJson[Node](json)
+
+      jsResult.asOpt.map { node =>
+        Ok(Node.update(Node(id, node.name, node.ipAddress)).toString + " updating to: " + node.name + " " + node.ipAddress)
+      }.getOrElse {
+        BadRequest("Invalid node: " + jsResult)
+      }
+    }.getOrElse {
+      BadRequest("Expecting JSON data")
+    }
+  }
 
 
 }

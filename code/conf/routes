@@ -9,4 +9,4 @@ GET     /nodes/                     controllers.Application.nodes
 GET     /nodes                      controllers.Application.nodes
 POST    /nodes                      controllers.Application.newNode
 DELETE  /nodes/:id                  controllers.Application.deleteNode(id:ObjectId)
-PUT     /nodes/:id                  controllers.Application.updateNode(id:Long)
+PUT     /nodes/:id                  controllers.Application.updateNode(id:ObjectId)

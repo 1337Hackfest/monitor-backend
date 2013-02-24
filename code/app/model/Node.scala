@@ -30,6 +30,14 @@ object Node extends ModelCompanion[Node, ObjectId] {
 
   def delete(id: ObjectId) = dao.removeById(id)
 
+  def update(node: Node) {
+    //val updatedNode = new Node(id, name, ipAddress)
+
+    //dao.update(MongoDBObject("_id" -> id), MongoDBObject("name" -> name, "ipAddress" -> ipAddress), false, false)
+    dao.update(MongoDBObject("_id" -> node._id), node, false, false, new WriteConcern)
+    //println("After update " + findOne(id).get.name )
+  }
+
   implicit val objectIdFormat = new Format[ObjectId] {
     def reads(jv: JsValue): JsResult[ObjectId] = {
       JsSuccess(new ObjectId(jv.as[String]))
