@@ -2,8 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+GET     /                           controllers.Application.index
 
-GET     /nodes                      controllers.Application.listNodes
-PUT     /node/:id                   controllers.Application.addNode(id:Long)
-DELETE  /node/:id                   controllers.Application.deleteNode(id:Long)
-POST    /node/:id                   controllers.Application.updateNode(id:Long)
+GET     /nodes                      controllers.Application.nodes
+POST    /nodes                      controllers.Application.newNode
+DELETE  /nodes/:id                  controllers.Application.deleteNode(id:Long)
+PUT     /nodes/:id                  controllers.Application.updateNode(id:Long)

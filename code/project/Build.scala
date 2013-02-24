@@ -12,12 +12,15 @@ object ApplicationBuild extends Build {
     jdbc,
     anorm,
     "com.novus" % "salat_2.10" % "1.9.2-SNAPSHOT",
-    "com.github.tmingos" % "casbah_2.10" % "2.5.0-SNAPSHOT"
+    "com.github.tmingos" % "casbah_2.10" % "2.5.0-SNAPSHOT",
+    "se.radley" % "play-plugins-salat_2.10" % "1.2"
   )
 
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    routesImport += "se.radley.plugin.salat.Binders._",
+    templatesImport += "org.bson.types.ObjectId"
   )
 
 }
