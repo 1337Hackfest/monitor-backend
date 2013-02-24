@@ -34,7 +34,7 @@ class ApplicationSpec extends Specification {
 
     "return 400 when adding a new node with correct JSON" in {
       running(FakeApplication()) {
-        val json = "{\"name\":\"pornserver\",\"ipaddress\":\"10.0.0.1\"}"
+        val json = """{"name":"gridserver","ipaddress":"10.0.0.1"}"""
         val response = route(FakeRequest(POST, "/nodes").withJsonBody(Json.parse(json))).get
 
         status(response) must equalTo(OK)
@@ -44,7 +44,7 @@ class ApplicationSpec extends Specification {
 
     "return bad request when name is missing in the JSON request" in {
       running(FakeApplication()) {
-        val json = "{\"ipaddress\":\"10.0.0.1\"}"
+        val json = """{"ipaddress":"10.0.0.1"}"""
         val response = route(FakeRequest(POST, "/nodes").withJsonBody(Json.parse(json))).get
 
         status(response) must equalTo(BAD_REQUEST)
