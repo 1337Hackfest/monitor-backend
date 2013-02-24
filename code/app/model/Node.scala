@@ -12,7 +12,7 @@ import com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers
 
 case class Node(
                  _id: ObjectId = new ObjectId,
-                 label: String
+                 name: String
                  )
 
 object Node extends ModelCompanion[Node, ObjectId] {
@@ -25,8 +25,8 @@ object Node extends ModelCompanion[Node, ObjectId] {
 
   def findOne(id: ObjectId) = dao.findOneById(id)
 
-  def create(label: String) {
-    val node = new Node(new ObjectId(), label)
+  def create(name: String) {
+    val node = new Node(new ObjectId(), name)
     dao.insert(node)
   }
 
@@ -42,7 +42,7 @@ object Node extends ModelCompanion[Node, ObjectId] {
 
   implicit val nodeFormat = (
     (__ \ "_id").format[ObjectId] and
-      (__ \ "label").format[String]
+      (__ \ "name").format[String]
     )(Node.apply, unlift(Node.unapply))
 
 }

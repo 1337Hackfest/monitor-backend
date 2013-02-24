@@ -25,12 +25,12 @@ object Application extends Controller {
     request =>
       request.body.asJson.map {
         json =>
-          (json \ "label").asOpt[String].map {
+          (json \ "name").asOpt[String].map {
             label =>
               Node.create(label)
-              Ok("Created node with label " + label)
+              Ok("Created node with name " + label)
           }.getOrElse {
-            BadRequest("Missing parameter label")
+            BadRequest("Missing parameter name")
           }
     }.getOrElse {
       BadRequest("Expecting JSON data")
