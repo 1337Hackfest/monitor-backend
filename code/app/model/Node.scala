@@ -11,7 +11,7 @@ import se.radley.plugin.salat._
 import com.mongodb.casbah.commons.conversions.scala.RegisterConversionHelpers
 
 case class Node(
-                 id: ObjectId = new ObjectId,
+                 _id: ObjectId = new ObjectId,
                  label: String
                  )
 
@@ -23,12 +23,14 @@ object Node extends ModelCompanion[Node, ObjectId] {
 
   def all(): List[Node] = dao.find(MongoDBObject.empty).toList
 
+  def findOne(id: ObjectId) = dao.findOneById(id)
+
   def create(label: String) {
     val node = new Node(new ObjectId(), label)
     dao.insert(node)
   }
 
-  def delete(id: Long) {}
+  def delete(id: ObjectId) = dao.removeById(id)
 
   implicit val objectIdFormat = new Format[ObjectId] {
     def reads(jv: JsValue): JsResult[ObjectId] = {
@@ -39,9 +41,8 @@ object Node extends ModelCompanion[Node, ObjectId] {
   }
 
   implicit val nodeFormat = (
-    (__ \ "id").format[ObjectId] and
+    (__ \ "_id").format[ObjectId] and
       (__ \ "label").format[String]
     )(Node.apply, unlift(Node.unapply))
-
 
 }

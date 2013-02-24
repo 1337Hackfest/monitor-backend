@@ -4,6 +4,7 @@ import play.api._
 import libs.json.Json
 import play.api.mvc._
 import model.Node
+import org.bson.types.ObjectId
 
 object Application extends Controller {
 
@@ -13,6 +14,10 @@ object Application extends Controller {
 
   def nodes = Action {
     Ok(Json.toJson(Node.all()))
+  }
+
+  def getNode(id: ObjectId) = Action {
+    Ok(Json.toJson(Node.findOne(id)))
   }
 
   def newNode = Action {
@@ -31,7 +36,10 @@ object Application extends Controller {
       }
   }
 
-  def deleteNode(id: Long) = TODO
+  def deleteNode(id: ObjectId) = Action {
+    Node.delete(id)
+    Ok("Deleted node, " + id)
+  }
 
   def updateNode(id: Long) = TODO
 
