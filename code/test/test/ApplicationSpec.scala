@@ -21,7 +21,7 @@ class ApplicationSpec extends Specification {
       }
     }
 
-    "return 400 when requesting nodes" in {
+    "return 200 when requesting nodes" in {
       running(FakeApplication()) {
         val nodes = route(FakeRequest(GET, "/nodes")).get
 
@@ -32,12 +32,12 @@ class ApplicationSpec extends Specification {
     }
 
 
-    "return 400 when adding a new node with correct JSON" in {
+    "return 201 when adding a new node with correct JSON" in {
       running(FakeApplication()) {
         val json = """{"name":"gridserver","ipaddress":"10.0.0.1"}"""
         val response = route(FakeRequest(POST, "/nodes").withJsonBody(Json.parse(json))).get
 
-        status(response) must equalTo(OK)
+        status(response) must equalTo(CREATED)
 
       }
     }

@@ -25,7 +25,7 @@ object Application extends Controller {
       val jsResult: JsResult[Node] = Json.fromJson[Node](json)
 
       jsResult.asOpt.map { node =>
-        Ok(Node.create(node.name, node.ipAddress).toString)
+        Created(Node.create(node.name, node.ipAddress).toString)
       }.getOrElse {
         BadRequest("Invalid node: " + jsResult)
       }
